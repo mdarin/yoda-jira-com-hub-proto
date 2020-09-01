@@ -41,10 +41,6 @@ func handle_hi(w http.ResponseWriter, r *http.Request) {
 }
 
 func handle_world(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "[world] webhook machined!")
-}
-
-func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 	// yandex
 	// smtp.yandex.ru:465
 	// http://ilyakhasanov.ru/baza-znanij/prochee/nuzhno-znat/139-nastrojki-otpravki-pochty-cherez-smtp
@@ -59,7 +55,7 @@ func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 	// Here we do it all: connect to our server, set up a message and send it
 	to := []string{"m.darin.comco@yandex.ru"}
 	msg := []byte("To: m.darin.comco@yandex.ru\r\n" +
-		"Subject: JIRA webhook is machined\r\n" +
+		"Subject: JIRA webhook machined\r\n" +
 		"\r\n" +
 		"Here’s the space for our great sales pitch\r\n")
 	err := smtp.SendMail("smtp.yandex.ru:587", auth, FROM, to, msg)
@@ -69,5 +65,10 @@ func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 	} else {
 		log.Println("Successfull done!")
 	}
-	fmt.Fprintf(w, "webhook is machined!")
+	fmt.Fprintf(w, "[world] webhook machined!")
+}
+
+func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
+	
+	fmt.Fprintf(w, "webhook machined!")
 }
