@@ -26,6 +26,7 @@ func main() {
 	http.HandleFunc("/hi", handle_hi)
 	http.HandleFunc("/webhookreceiver", handle_jira_webhook)
 	http.HandleFunc("/world", handle_world)
+	http.HandleFunc("/gitlab-push-webhookreceiver", handle_gitlab_push_webhook)
 
 	// start the server
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -57,6 +58,17 @@ func handle_world(w http.ResponseWriter, r *http.Request) {
 func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "webhook machined!")
+}
+
+func handle_gitlab_push_webhook(w http.ResponseWriter, r *http.Request) {
+	// get body
+	//body, _ := ioutil.ReadAll(r.Body)
+
+	//log.Println(string(body))
+
+	//send_email(string(body))
+
+	fmt.Fprintf(w, "gitlab push webhook machined!")
 }
 
 //-------------------------------
