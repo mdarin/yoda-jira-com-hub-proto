@@ -6,16 +6,17 @@ package main
 import (
 	"fmt"
 	"html"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/smtp"
-	"io/ioutil"
 )
 
-const(
-	FROM = "m.darin@email.su"
+const (
+	FROM     = "m.darin@email.su"
 	PASSWORD = "x_wK,(Tf6ff)2L_"
 )
+
 //-------------------------------
 // main driver
 //-------------------------------
@@ -73,6 +74,6 @@ func handle_world(w http.ResponseWriter, r *http.Request) {
 }
 
 func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
-	
+
 	fmt.Fprintf(w, "webhook machined!")
 }
