@@ -62,11 +62,11 @@ func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 
 func handle_gitlab_push_webhook(w http.ResponseWriter, r *http.Request) {
 	// get body
-	//body, _ := ioutil.ReadAll(r.Body)
+	body, _ := ioutil.ReadAll(r.Body)
 
-	//log.Println(string(body))
+	log.Println(string(body))
 
-	//send_email(string(body))
+	send_email(string(body))
 
 	fmt.Fprintf(w, "gitlab push webhook machined!")
 }
