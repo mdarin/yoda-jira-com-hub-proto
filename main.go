@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"net/smtp"
+	"io/ioutil"
 )
 
 const(
@@ -51,13 +52,16 @@ func handle_world(w http.ResponseWriter, r *http.Request) {
 	// Choose auth method and set it up
 	auth := smtp.PlainAuth("", FROM, PASSWORD, "smtp.yandex.ru")
 
+	body, _ := ioutil.ReadAll(r.Body)
+
 	log.Println("prepare and send")
 	// Here we do it all: connect to our server, set up a message and send it
 	to := []string{"m.darin.comco@yandex.ru"}
 	msg := []byte("To: m.darin.comco@yandex.ru\r\n" +
 		"Subject: JIRA webhook machined\r\n" +
 		"\r\n" +
-		"Here’s the space for our great sales pitch\r\n")
+		"BODY\r\n" + string(body) +
+		"\r\n")
 	err := smtp.SendMail("smtp.yandex.ru:587", auth, FROM, to, msg)
 	if err != nil {
 		log.Print("Error: ")
