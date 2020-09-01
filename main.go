@@ -17,6 +17,7 @@ func main() {
 	// configure handlers
 	http.HandleFunc("/", handle_hello)
 	http.HandleFunc("/hi", handle_hi)
+	http.HandleFunc("/webhookreceiver", handle_jira_webhook)
 
 	// start the server
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -31,4 +32,8 @@ func handle_hello(w http.ResponseWriter, r *http.Request) {
 
 func handle_hi(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hi")
+}
+
+func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "webhook machined!")
 }
