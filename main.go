@@ -247,19 +247,18 @@ func handle_hi(w http.ResponseWriter, r *http.Request) {
 }
 
 func handle_world(w http.ResponseWriter, r *http.Request) {
-
 	// get body
 	body, _ := ioutil.ReadAll(r.Body)
-
 	log.Println(string(body))
-
 	send_email(string(body))
-
 	fmt.Fprintf(w, "[world] webhook machined!")
 }
 
 func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
-
+	// get body
+	body, _ := ioutil.ReadAll(r.Body)
+	log.Println(string(body))
+	send_email(string(body))
 	fmt.Fprintf(w, "webhook machined!")
 }
 
