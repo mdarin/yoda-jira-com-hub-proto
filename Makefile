@@ -1,7 +1,9 @@
 PROGNAME = jira-communication-hub-prototype 
+CONTAINER_TAG = my-golang-app
+CONTAINER_NAME = my-running-app
 
-$(PROGNAME): format build publish 
-	@echo "New version created!"
+$(PROGNAME): format clean build publish 
+	@echo "New version of $(PROGNAME) created!"
 
 format:
 	@echo "Formatting code..."
@@ -9,13 +11,16 @@ format:
 	@echo "Done!"
 
 build:
-	@echo "Building..."
+	@echo "Building $(PROGNAME)..."
 	@docker build -t my-golang-app .
 	@echo "Done!"
 
 publish:
-	@echo "Publishing..."
-	@docker rm -f my-running-app || docker run -p 8080:8080 -d -it --rm --name my-running-app my-golang-app	
+	@echo "Publishing $(CONTAINER_TAG)..."
+	@docker run -p 8080:8080 -d -it --rm --name my-running-app my-golang-app	
 	@echo "Done!"
 
-
+clean:
+	@echo "Cleninging $(CONTAINER_TAG)..."
+	@docker rm -f my-running-app
+	@echo "Done!"
