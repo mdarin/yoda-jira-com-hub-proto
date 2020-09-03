@@ -305,7 +305,8 @@ func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 		event.Issue.Fields.Project.Name + "\r\n" +
 		event.Issue.Fields.Project.Key + "\r\n" +
 		event.Issue.Key + "\r\n" +
-		event.Issue.Fields.Status.Name
+		event.Issue.Fields.Status.Name + "\r\n" +
+		event.Issue.Self
 	send_email(email)
 	fmt.Fprintf(w, "webhook machined!")
 }
