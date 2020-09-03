@@ -15,7 +15,7 @@ build:
 
 publish:
 	@echo "Publishing..."
-	@docker rm -f my-running-app && docker run -p 8080:8080 -d -it --rm --name my-running-app my-golang-app	
+	@docker rm -f my-running-app || docker run -p 8080:8080 -d -it --rm --name my-running-app my-golang-app	
 	@echo "Done!"
 
 
