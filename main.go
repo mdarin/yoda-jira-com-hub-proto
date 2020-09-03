@@ -30,6 +30,8 @@ type Company struct {
 //-------------------------------
 // type defenitios
 //------------------------------
+
+// webhookEvent
 type JiraWebhookEvent struct {
 	// "timestamp": 1598980214900,
 	Timestamp int `json:"timestamp"`
@@ -41,22 +43,11 @@ type JiraWebhookEvent struct {
 	User JiraUser `json:"user"`
 	// "issue": {},
 	Issue JiraIssue `json:"issue"`
-	// "changelog": {
-	//   "id": "28403",
-	//   "items": [{
-	// 	  	"field": "Rank",
-	// 		"fieldtype": "custom",
-	// 	  	"fieldId": "customfield_10019",
-	// 	  	"from": "",
-	// 	  	"fromString": "",
-	// 	  	"to": "",
-	// 	  	"toString": "Рейтинг понижен"
-	// 	}]
-	// }
+	// "changelog": {}
 	Changelog JiraChangelog `json:"changelog"`
 }
 
-// "user": {
+// "user"
 type JiraUser struct {
 	//   "self": "https://aeonmeta.atlassian.net/rest/api/2/user?accountId=5d0b3e123e70300bc975860e",
 	//   "accountId": "5d0b3e123e70300bc975860e",
@@ -69,19 +60,17 @@ type JiraUser struct {
 	//   "accountType": "atlassian"
 }
 
-// }
-
-// "issue": {
+// "issue"
 type JiraIssue struct {
 	//   "id": "10059",
+	Id string `json:"id"`
 	//   "self": "https://aeonmeta.atlassian.net/rest/api/2/10059",
 	//   "key": "VZQO-34",
+	Key string `json:"key"`
 	//   "fields": {}
 }
 
-// },
-
-// "status": {
+// "status"
 type JiraStatus struct {
 	// "self": "https://aeonmeta.atlassian.net/rest/api/2/status/10011",
 	// "description": "This issue is being actively worked on at the moment by the assignee.",
@@ -95,9 +84,7 @@ type JiraStatus struct {
 	StatusCategory JiraStatusCategory `json:"statusCategory"`
 }
 
-// },
-
-// "statusCategory": {
+// "statusCategory"
 type JiraStatusCategory struct {
 	// "self": "https://aeonmeta.atlassian.net/rest/api/2/statuscategory/4",
 	// "id": 4,
@@ -109,9 +96,7 @@ type JiraStatusCategory struct {
 	Name string `json:"name"`
 }
 
-// }
-
-//"project": {
+// "project"
 type JiraProject struct {
 	//	"self": "https://aeonmeta.atlassian.net/rest/api/2/project/10004",
 	//	"id": "10004",
@@ -124,9 +109,7 @@ type JiraProject struct {
 	//	"simplified": true,
 }
 
-//	},
-
-// "issuetype": {
+// "issuetype"
 type JiraIssueType struct {
 	// "self": "https://aeonmeta.atlassian.net/rest/api/2/issuetype/10017",
 	// "id": "10017",
@@ -142,9 +125,7 @@ type JiraIssueType struct {
 	// "entityId": "688ddaac-f832-42ed-8903-0cafa65bf49f"
 }
 
-// },
-
-//"watches": {
+// "watches"
 type JiraWatches struct {
 	//	"self": "https://aeonmeta.atlassian.net/rest/api/2/issue/VZQO-34/watchers",
 	//	"watchCount": 2,
@@ -153,9 +134,7 @@ type JiraWatches struct {
 	IsWatching bool `json:"isWatching"`
 }
 
-// },
-
-// "progress": {
+// "progress"
 type JiraProgress struct {
 	//	"progress": 0,
 	Progress int `json:"progress"`
@@ -163,9 +142,7 @@ type JiraProgress struct {
 	Total int `json:"total"`
 }
 
-// }
-
-// "priority": {
+// "priority"
 type JiraPriority struct {
 	// 	"self": "https://aeonmeta.atlassian.net/rest/api/2/priority/3",
 	// 	"iconUrl": "https://aeonmeta.atlassian.net/images/icons/priorities/medium.svg",
@@ -175,10 +152,8 @@ type JiraPriority struct {
 	Id string `json:"id"`
 }
 
-// },
-
+// "fields"
 type JiraFields struct {
-	// "fields": {
 	// "statuscategorychangedate": "2020-03-23T13:57:55.935+0300",
 	StatusCategoryChangeDate string `json:"statuscategorychangedate"`
 	// "issuetype": {},
@@ -236,11 +211,10 @@ type JiraFields struct {
 	// "progress": {},
 	Progress JiraProgress `json:"progress"`
 	// "votes": {}
-	// }
 }
 
+// "parent"
 type JiraParent struct {
-	// "parent": {
 	// 	"id": "10038",
 	Id string `json:"id"`
 	// 	"key": "VZQO-14",
@@ -255,15 +229,13 @@ type JiraParent struct {
 	// }
 }
 
-// "changelog": {
+// "changelog"
 type JiraChangelog struct {
 	// "id": "28403",
 	Id string `json:"id"`
 	// "items": [{}]
 	Items []JiraChangelogItem
 }
-
-// }
 
 type JiraChangelogItem struct {
 	// "field": "Rank",
@@ -326,7 +298,10 @@ func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	send_email(event.User.DisplayName + "\r\n" + string(body))
+	email := event.User.DisplayName + "\r\n" +
+		event.IssueEventTypeName + "\r\n" +
+		event.Issue.Key
+	send_email(email)
 	fmt.Fprintf(w, "webhook machined!")
 }
 
