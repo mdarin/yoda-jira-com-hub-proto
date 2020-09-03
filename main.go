@@ -18,6 +18,15 @@ const (
 	PASSWORD = "x_wK,(Tf6ff)2L_"
 )
 
+/*
+Игнорировать пустое поле
+Чтобы предотвратить включение Location в JSON, когда оно установлено на его нулевое значение, добавьте ,omitempty в тег json .
+
+type Company struct {
+    Name     string `json:"name"`
+    Location string `json:"location,omitempty"`
+}
+*/
 //-------------------------------
 // type defenitios
 //------------------------------
@@ -28,170 +37,10 @@ type JiraWebhookEvent struct {
 	WebhookEvent string `json:"webhookEvent"`
 	// "issue_event_type_name": "issue_updated",
 	IssueEventTypeName string `json:"issue_event_type_name"`
-	// "user": {
-	//   "self": "https://aeonmeta.atlassian.net/rest/api/2/user?accountId=5d0b3e123e70300bc975860e",
-	//   "accountId": "5d0b3e123e70300bc975860e",
-	//   "displayName": "Michael DARIN",
-	//   "active": true,
-	//   "timeZone": "Europe/Moscow",
-	//   "accountType": "atlassian"
-	// },
+	// "user": {},
 	User JiraUser `json:"user"`
-	// "issue": {
-	//   "id": "10059",
-	//   "self": "https://aeonmeta.atlassian.net/rest/api/2/10059",
-	//   "key": "VZQO-34",
-	//   "fields": {
-	// 		"statuscategorychangedate": "2020-03-23T13:57:55.935+0300",
-	// 		"issuetype": {
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/issuetype/10017",
-	// 	  		"id": "10017",
-	// 	  		"description": "Tasks track small, distinct pieces of work.",
-	// 	  		"iconUrl": "https://aeonmeta.atlassian.net/secure/viewavatar?size=medium&avatarId=10318&avatarType=issuetype",
-	// 	  		"name": "Task",
-	// 	  		"subtask": false,
-	// 	  		"avatarId": 10318,
-	// 	  		"entityId": "688ddaac-f832-42ed-8903-0cafa65bf49f"
-	// 		},
-	// 		"parent": {
-	// 	  		"id": "10038",
-	// 	  		"key": "VZQO-14",
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/issue/10038",
-	// 	  		"fields": {
-	// 				"summary": "Авторизация",
-	// 				"status": {
-	// 		  			"self": "https://aeonmeta.atlassian.net/rest/api/2/status/10011",
-	// 		  			"description": "This issue is being actively worked on at the moment by the assignee.",
-	// 		  			"iconUrl": "https://aeonmeta.atlassian.net/",
-	// 		  			"name": "In Progress",
-	// 		  			"id": "10011",
-	// 		  			"statusCategory": {
-	// 						"self": "https://aeonmeta.atlassian.net/rest/api/2/statuscategory/4",
-	// 						"id": 4,
-	// 						"key": "indeterminate",
-	// 						"colorName": "yellow",
-	// 						"name": "In Progress"
-	// 		 			}
-	// 				},
-	// 				"priority": {
-	// 		  			"self": "https://aeonmeta.atlassian.net/rest/api/2/priority/3",
-	// 		  			"iconUrl": "https://aeonmeta.atlassian.net/images/icons/priorities/medium.svg",
-	// 		  			"name": "Medium",
-	// 		  			"id": "3"
-	// 				},
-	// 				"issuetype": {
-	// 		  			"self": "https://aeonmeta.atlassian.net/rest/api/2/issuetype/10018",
-	// 		  			"id": "10018",
-	// 		  			"description": "Эпики позволяют отслеживать похожие истории, задания и связанные с ними ошибки.",
-	// 		  			"iconUrl": "https://aeonmeta.atlassian.net/secure/viewavatar?size=medium&avatarId=10307&avatarType=issuetype",
-	// 		  			"name": "Эпик",
-	// 		  			"subtask": false,
-	// 		  			"avatarId": 10307,
-	// 		  			"entityId": "856c090e-3ad0-4622-864d-d3e6e35d1be1"
-	// 				}
-	// 	  		}
-	// 		},
-	// 		"timespent": null,
-	// 		"project": {
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/project/10004",
-	// 	  		"id": "10004",
-	// 	  		"key": "VZQO",
-	// 	  		"name": "ДЕМО",
-	// 	  		"projectTypeKey": "software",
-	// 	  		"simplified": true,
-	// 		},
-	// 		"aggregatetimespent": null,
-	// 		"resolution": null,
-	// 		"resolutiondate": null,
-	// 		"workratio": -1,
-	// 		"lastViewed": null,
-	// 		"watches": {
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/issue/VZQO-34/watchers",
-	// 	  		"watchCount": 2,
-	// 	  		"isWatching": false
-	// 		},
-	// 		"issuerestriction": {
-	// 	  		"issuerestrictions": {},
-	// 	  		"shouldDisplay": true
-	// 		},
-	// 		"created": "2020-03-11T16:21:37.654+0300",
-	// 		"priority": {
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/priority/3",
-	// 	  		"iconUrl": "https://aeonmeta.atlassian.net/images/icons/priorities/medium.svg",
-	// 	  		"name": "Medium",
-	// 	  		"id": "3"
-	// 		},
-	// 		"labels": [
-	// 	  		"Авторизация"
-	// 		],
-	// 		"timeestimate": null,
-	// 		"aggregatetimeoriginalestimate": null,
-	// 		"versions": [],
-	// 		"issuelinks": [],
-	// 		"assignee": {
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/user?accountId=5b22826d58be252d7452ef66",
-	// 	  		"accountId": "5b22826d58be252d7452ef66",
-	// 	  		"displayName": "Andre Orlov",
-	// 	  		"active": false,
-	// 	  		"timeZone": "Europe/Moscow",
-	// 	  		"accountType": "atlassian"
-	// 		},
-	// 		"updated": "2020-09-01T20:10:14.894+0300",
-	// 		"status": {
-	// 			"self": "https://aeonmeta.atlassian.net/rest/api/2/status/10012",
-	// 	  		"description": "",
-	// 	  		"iconUrl": "https://aeonmeta.atlassian.net/",
-	// 	  		"name": "Done",
-	// 	  		"id": "10012",
-	// 	  		"statusCategory": {
-	// 				"self": "https://aeonmeta.atlassian.net/rest/api/2/statuscategory/4",
-	// 				"id": 4,
-	// 				"key": "indeterminate",
-	// 				"colorName": "yellow",
-	// 				"name": "In Progress"
-	// 	 		}
-	// 		},
-	// 		"components": [],
-	// 		"description": "Пофиксить",
-	// 		"timetracking": {},
-	// 		"security": null,
-	// 		"attachment": [],
-	// 		"aggregatetimeestimate": null,
-	// 		"summary": "modelPhone возвращает номер и модель даже когда не одобрили в админке",
-	// 		"creator": {
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/user?accountId=5d8cce09e4b7210dd0a676e7",
-	// 	  		"accountId": "5d8cce09e4b7210dd0a676e7",
-	// 	  		"displayName": "Сергей Соловьев",
-	// 	  		"active": false,
-	// 	  		"timeZone": "Europe/Moscow",
-	// 	  		"accountType": "atlassian"
-	// 		},
-	// 		"subtasks": [],
-	// 		"reporter": {
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/user?accountId=5d8cce09e4b7210dd0a676e7",
-	// 	  		"accountId": "5d8cce09e4b7210dd0a676e7",
-	// 	  		"displayName": "Сергей Соловьев",
-	// 	  		"active": false,
-	// 	  		"timeZone": "Europe/Moscow",
-	// 	  		"accountType": "atlassian"
-	// 		},
-	// 		"aggregateprogress": {
-	// 	  		"progress": 0,
-	// 	  		"total": 0
-	// 		},
-	// 		"environment": null,
-	// 		"duedate": "2020-03-31",
-	// 		"progress": {
-	// 	  		"progress": 0,
-	// 	  		"total": 0
-	// 		},
-	// 		"votes": {
-	// 	  		"self": "https://aeonmeta.atlassian.net/rest/api/2/issue/VZQO-34/votes",
-	// 	  		"votes": 0,
-	// 	  		"hasVoted": false
-	// 		}
-	//   }
-	// },
+	// "issue": {},
+	Issue JiraIssue `json:"issue"`
 	// "changelog": {
 	//   "id": "28403",
 	//   "items": [{
@@ -204,7 +53,7 @@ type JiraWebhookEvent struct {
 	// 	  	"toString": "Рейтинг понижен"
 	// 	}]
 	// }
-	// }
+	Changelog JiraChangelog `json:"changelog"`
 }
 
 // "user": {
@@ -218,8 +67,197 @@ type JiraUser struct {
 	Active bool `json:"active"`
 	//   "timeZone": "Europe/Moscow",
 	//   "accountType": "atlassian"
-	// }
 }
+
+// }
+
+// "issue": {
+type JiraIssue struct {
+	//   "id": "10059",
+	//   "self": "https://aeonmeta.atlassian.net/rest/api/2/10059",
+	//   "key": "VZQO-34",
+	//   "fields": {}
+}
+
+// },
+
+// "status": {
+type JiraStatus struct {
+	// "self": "https://aeonmeta.atlassian.net/rest/api/2/status/10011",
+	// "description": "This issue is being actively worked on at the moment by the assignee.",
+	Desc string `json:"description"`
+	// "iconUrl": "https://aeonmeta.atlassian.net/",
+	// "name": "In Progress",
+	Name string `json:"name"`
+	// "id": "10011",
+	Id string `json:"id"`
+	// "statusCategory": Object
+	StatusCategory JiraStatusCategory `json:"statusCategory"`
+}
+
+// },
+
+// "statusCategory": {
+type JiraStatusCategory struct {
+	// "self": "https://aeonmeta.atlassian.net/rest/api/2/statuscategory/4",
+	// "id": 4,
+	Id int `json:"id"`
+	// "key": "indeterminate",
+	Key string `json:"key"`
+	// "colorName": "yellow",
+	// "name": "In Progress"
+	Name string `json:"name"`
+}
+
+// }
+
+//"project": {
+type JiraProject struct {
+	//	"self": "https://aeonmeta.atlassian.net/rest/api/2/project/10004",
+	//	"id": "10004",
+	Id string `json:"id"`
+	//	"key": "VZQO",
+	Key string `json:"key"`
+	//	"name": "ДЕМО",
+	Name string `json:"name"`
+	//	"projectTypeKey": "software",
+	//	"simplified": true,
+}
+
+//	},
+
+// "issuetype": {
+type JiraIssueType struct {
+	// "self": "https://aeonmeta.atlassian.net/rest/api/2/issuetype/10017",
+	// "id": "10017",
+	Id string `json:"id"`
+	// "description": "Tasks track small, distinct pieces of work.",
+	Desc string `json:"description"`
+	// "iconUrl": "https://aeonmeta.atlassian.net/secure/viewavatar?size=medium&avatarId=10318&avatarType=issuetype",
+	// "name": "Task",
+	Name string `json:"name"`
+	// "subtask": false,
+	Subtask bool `json:"subtask"`
+	// "avatarId": 10318,
+	// "entityId": "688ddaac-f832-42ed-8903-0cafa65bf49f"
+}
+
+// },
+
+//"watches": {
+type JiraWatches struct {
+	//	"self": "https://aeonmeta.atlassian.net/rest/api/2/issue/VZQO-34/watchers",
+	//	"watchCount": 2,
+	WatchCount int `json:"watchCount"`
+	//	"isWatching": false
+	IsWatching bool `json:"isWatching"`
+}
+
+// },
+
+// "progress": {
+type JiraProgress struct {
+	//	"progress": 0,
+	Progress int `json:"progress"`
+	//	"total": 0
+	Total int `json:"total"`
+}
+
+// }
+
+// "priority": {
+type JiraPriority struct {
+	// 	"self": "https://aeonmeta.atlassian.net/rest/api/2/priority/3",
+	// 	"iconUrl": "https://aeonmeta.atlassian.net/images/icons/priorities/medium.svg",
+	// 	"name": "Medium",
+	Name string `json:"name"`
+	// 	"id": "3"
+	Id string `json:"id"`
+}
+
+// },
+
+// "fields": {
+type JiraFields struct {
+	// "statuscategorychangedate": "2020-03-23T13:57:55.935+0300",
+	StatusCategoryChangeDate `json:"statuscategorychangedate"`
+	// "issuetype": {},
+	IssueType JiraIssueType `json:"issuetype"`
+	// "parent": {},
+	Parent JiraParent `json:"parent"`
+	// "timespent": null,
+	// "project": {},
+	Project JiraProject `json:"project"`
+	// "aggregatetimespent": null,
+	// "resolution": null,
+	// "resolutiondate": null,
+	// "workratio": -1,
+	// "lastViewed": null,
+	// "watches": {},
+	Watches JiraWatches `json:"watches"`
+	// "issuerestriction": {},
+	// "created": "2020-03-11T16:21:37.654+0300",
+	Created string `json:"created"`
+	// "priority": {},
+	Priority JiraPriority `json:"priority"`
+	// "labels": [
+	// 	"Авторизация"
+	// ],
+	Labels []string `json:"labels"`
+	// "timeestimate": null,
+	// "aggregatetimeoriginalestimate": null,
+	// "versions": [],
+	// "issuelinks": [],
+	// "assignee": {},
+	Assignee JiraUser `json:"assignee"`
+	// "updated": "2020-09-01T20:10:14.894+0300",
+	Updated string `json:"updated"`
+	// "status": {},
+	Status JiraStatus `json:"status"`
+	// "components": [],
+	// "description": "Пофиксить",
+	Desc string `json:"description"`
+	// "timetracking": {},
+	// "security": null,
+	// "attachment": [],
+	// "aggregatetimeestimate": null,
+	// "summary": "modelPhone возвращает номер и модель даже когда не одобрили в админке",
+	Summary string `json:"summary"`
+	// "creator": {},
+	Creator JiraUser `json:"creator"`
+	// "subtasks": [],
+	// "reporter": {},
+	Reporter JiraUser `json:"reporter"`
+	// "aggregateprogress": {},
+	Aggregateprogress JiraProgress `json:"aggregateprogress"`
+	// "environment": null,
+	// "duedate": "2020-03-31",
+	Duedate string `json:"duedate"`
+	// "progress": {},
+	Progress Progress `json:"progress"`
+	// "votes": {}
+}
+
+// }
+
+// "parent": {
+type JiraParent struct {
+	// 	"id": "10038",
+	Id string `json:"id"`
+	// 	"key": "VZQO-14",
+	Key string `json:"key"`
+	// 	"self": "https://aeonmeta.atlassian.net/rest/api/2/issue/10038",
+	// 	"fields": {
+	// 		"summary": "Авторизация",
+	// 		"status": Object
+	// 		"priority": Object
+	// 		"issuetype": Object
+	// 	}
+}
+
+// }
+
+type JiraChangelog struct{}
 
 //-------------------------------
 // main driver
