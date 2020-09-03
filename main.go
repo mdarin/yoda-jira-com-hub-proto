@@ -65,9 +65,11 @@ type JiraIssue struct {
 	//   "id": "10059",
 	Id string `json:"id"`
 	//   "self": "https://aeonmeta.atlassian.net/rest/api/2/10059",
+	Self string `json:"self"`
 	//   "key": "VZQO-34",
 	Key string `json:"key"`
 	//   "fields": {}
+	Fields JiraFields `json:"fields"`
 }
 
 // "status"
@@ -300,7 +302,10 @@ func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 	}
 	email := event.User.DisplayName + "\r\n" +
 		event.IssueEventTypeName + "\r\n" +
-		event.Issue.Key
+		event.Issue.Fields.Project.Name + "\r\n" +
+		event.Issue.Fields.Project.Key + "\r\n" +
+		event.Issue.Key + "\r\n" +
+		event.Issue.Fields.Status.Name
 	send_email(email)
 	fmt.Fprintf(w, "webhook machined!")
 }
@@ -332,7 +337,7 @@ func send_email(message string) {
 	msg := []byte("To: m.darin.comco@yandex.ru\r\n" +
 		"Subject: JIRA webhook machined\r\n" +
 		"\r\n" +
-		"BODY\r\n" + message +
+		message +
 		"\r\n")
 	err := smtp.SendMail("smtp.yandex.ru:587", auth, FROM, to, msg)
 	if err != nil {
