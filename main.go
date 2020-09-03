@@ -177,10 +177,10 @@ type JiraPriority struct {
 
 // },
 
-// "fields": {
 type JiraFields struct {
+	// "fields": {
 	// "statuscategorychangedate": "2020-03-23T13:57:55.935+0300",
-	StatusCategoryChangeDate `json:"statuscategorychangedate"`
+	StatusCategoryChangeDate string `json:"statuscategorychangedate"`
 	// "issuetype": {},
 	IssueType JiraIssueType `json:"issuetype"`
 	// "parent": {},
@@ -234,14 +234,13 @@ type JiraFields struct {
 	// "duedate": "2020-03-31",
 	Duedate string `json:"duedate"`
 	// "progress": {},
-	Progress Progress `json:"progress"`
+	Progress JiraProgress `json:"progress"`
 	// "votes": {}
+	// }
 }
 
-// }
-
-// "parent": {
 type JiraParent struct {
+	// "parent": {
 	// 	"id": "10038",
 	Id string `json:"id"`
 	// 	"key": "VZQO-14",
@@ -253,11 +252,35 @@ type JiraParent struct {
 	// 		"priority": Object
 	// 		"issuetype": Object
 	// 	}
+	// }
+}
+
+// "changelog": {
+type JiraChangelog struct {
+	// "id": "28403",
+	Id string `json:"id"`
+	// "items": [{}]
+	Items []JiraChangelogItem
 }
 
 // }
 
-type JiraChangelog struct{}
+type JiraChangelogItem struct {
+	// "field": "Rank",
+	Field string `json:"field"`
+	// "fieldtype": "custom",
+	FieldType string `json:"fieldtype"`
+	// "fieldId": "customfield_10019",
+	FieldId string `json:"fieldId"`
+	// "from": "",
+	From string `json:"from"`
+	// "fromString": "",
+	FromString string `json:"fromString"`
+	// "to": "",
+	To string `json:"to"`
+	// "toString": "Рейтинг понижен"
+	ToString string `json:"toString"`
+}
 
 //-------------------------------
 // main driver
