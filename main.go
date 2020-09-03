@@ -4,6 +4,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"html"
 	"io/ioutil"
@@ -212,7 +213,7 @@ type JiraUser struct {
 	//   "accountId": "5d0b3e123e70300bc975860e",
 	AccountID string `json:"accountId"`
 	//   "displayName": "Michael DARIN",
-	DislayName string `json:"displayName"`
+	DisplayName string `json:"displayName"`
 	//   "active": true,
 	Active bool `json:"active"`
 	//   "timeZone": "Europe/Moscow",
@@ -258,18 +259,21 @@ func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 	// get body
 	body, _ := ioutil.ReadAll(r.Body)
 	log.Println(string(body))
-	send_email(string(body))
+	var event JiraWebhookEvent
+	// get event
+	err := json.Unmarshal([]byte(body), &event)
+	if err != nil {
+		panic(err)
+	}
+	send_email(event.User.DisplayName + "\r\n" + string(body))
 	fmt.Fprintf(w, "webhook machined!")
 }
 
 func handle_gitlab_push_webhook(w http.ResponseWriter, r *http.Request) {
 	// get body
 	body, _ := ioutil.ReadAll(r.Body)
-
 	log.Println(string(body))
-
 	send_email(string(body))
-
 	fmt.Fprintf(w, "gitlab push webhook machined!")
 }
 
