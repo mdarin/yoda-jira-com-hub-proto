@@ -24,3 +24,9 @@ clean:
 	@echo "Cleninging $(CONTAINER_TAG)..."
 	@docker rm -f my-running-app
 	@echo "Done!"
+
+log:
+	@docker logs -f my-running-app
+
+exec:
+	@docker exec -it my-running-app bash

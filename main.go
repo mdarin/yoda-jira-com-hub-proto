@@ -23,7 +23,7 @@ const (
 //------------------------------
 type JiraWebhookEvent struct {
 	// "timestamp": 1598980214900,
-	Timestamp string `json:"timestamp"`
+	Timestamp int `json:"timestamp"`
 	// "webhookEvent": "jira:issue_updated",
 	WebhookEvent string `json:"webhookEvent"`
 	// "issue_event_type_name": "issue_updated",
