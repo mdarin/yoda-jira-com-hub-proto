@@ -305,6 +305,8 @@ func handle_jira_webhook(w http.ResponseWriter, r *http.Request) {
 		event.Issue.Fields.Project.Name + "\r\n" +
 		event.Issue.Fields.Project.Key + "\r\n" +
 		event.Issue.Key + "\r\n" +
+		event.Issue.Fields.Summary + "\r\n" +
+		event.Issue.Fields.Desc + "\r\n" +
 		event.Issue.Fields.Status.Name + "\r\n" +
 		event.Issue.Fields.Created + "\r\n" +
 		event.Issue.Fields.Updated + "\r\n" +
