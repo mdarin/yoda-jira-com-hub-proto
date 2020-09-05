@@ -31,7 +31,7 @@ type Company struct {
 // type defenitios
 //------------------------------
 
-// webhookEvent
+// JiraWebhookEvent
 type JiraWebhookEvent struct {
 	// "timestamp": 1598980214900,
 	Timestamp int `json:"timestamp"`
@@ -256,6 +256,121 @@ type JiraChangelogItem struct {
 	ToString string `json:"toString"`
 }
 
+// GitLabWebhookEvent
+type GitLabWebhookEvent struct {
+	// "object_kind": "push",
+	ObjectKind string `json:"object_kind"`
+	// "event_name": "push",
+	EventName string `json:"event_name"`
+	// "before": "0000000000000000000000000000000000000000",
+	Before string `json:"before"`
+	// "after": "70672f9603dbbaa2f217d3b38176886f1a92ad33",
+	After string `json:"after"`
+	// "ref": "refs/heads/test",
+	Ref string `json:"ref"`
+	// "checkout_sha": "70672f9603dbbaa2f217d3b38176886f1a92ad33",
+	CheckoutSHA string `json:"checkout_sha"`
+	// "message": null,
+	Message string `json:"message"`
+	// "user_id": 36,
+	UserId int `json:"user_id"`
+	// "user_name": "Касумов Махач",
+	UserName string `json:"user_name"`
+	// "user_username": "kasumov-mk",
+	UserUsername string `josn:"user_username"`
+	// "user_email": "",
+	UserEmail string `json:"user_email"`
+	// "user_avatar": "https://gitlab.aeon.world/uploads/-/system/user/avatar/36/avatar.png",
+	// "project_id": 71,
+	ProjectId int `json:"project_id"`
+	// "project": {},
+	Project GitLabProject `json:"project"`
+	// "commits": [{}],
+	Commits []GitLabCommit `json:"commits"`
+	// "total_commits_count": 1,
+	TotalCommitsCount int `json:"total_commits_count"`
+	// "push_options": {},
+	// "repository": {}
+	Repository GitLabRepository `json:"repository"`
+}
+
+// 	"project"
+type GitLabProject struct {
+	// "id": 71,
+	Id int `json:"id"`
+	// "name": "meta_id",
+	Name string `json:"name"`
+	// "description": "",
+	Desc string `json:"description"`
+	// "web_url": "https://gitlab.aeon.world/services/meta_id",
+	WebUrl string `json:"web_url"`
+	// "avatar_url": null,
+	// "git_ssh_url": "git@gitlab.aeon.world:services/meta_id.git",
+	GitSSHUrl string `json:"git_ssh_url"`
+	// "git_http_url": "https://gitlab.aeon.world/services/meta_id.git",
+	GitHTTPUrl string `json:"git_http_url"`
+	// "namespace": "services",
+	Namespace string `json:"namespace"`
+	// "visibility_level": 10,
+	// "path_with_namespace": "services/meta_id",
+	// "default_branch": "dev",
+	DefaultBranch string `json:"default_branch"`
+	// "ci_config_path": null,
+	// "homepage": "https://gitlab.aeon.world/services/meta_id",
+	Homepage string `json:"homepage"`
+	// "url": "git@gitlab.aeon.world:services/meta_id.git",
+	Url string `json:"url"`
+	// "ssh_url": "git@gitlab.aeon.world:services/meta_id.git",
+	SSHUrl string `json:"ssh_url"`
+	// "http_url": "https://gitlab.aeon.world/services/meta_id.git"
+	HTTPUrl string `json:"http_url"`
+}
+
+// "commit"
+type GitLabCommit struct {
+	// "id": "70672f9603dbbaa2f217d3b38176886f1a92ad33",
+	Id string `json:"id"`
+	// "message": "test push\n",
+	Message string `josn:"message"`
+	// "timestamp": "2020-09-01T18:24:33Z",
+	Timestamp string `json:"timestamp"`
+	// "url": "https://gitlab.aeon.world/services/meta_id/commit/70672f9603dbbaa2f217d3b38176886f1a92ad33",
+	Url string `json:"url"`
+	// "author": {},
+	Author GitLabAuthor `json:"author"`
+	// "added": [],
+	Added []string `json:"added"`
+	// "modified": ["lib/meta_id.ex"],
+	Modified []string `json:"modified"`
+	// "removed": []
+	Removed []string `json:"removed"`
+}
+
+// "author"
+type GitLabAuthor struct {
+	// "name": "Касумов Махач",
+	Name string `json:"name"`
+	// "email": "maktempgma@gmail.com"
+	Email string `json:"email"`
+}
+
+// 	"repository"
+type GitLabRepository struct {
+	// "name": "meta_id",
+	Name string `json:"name"`
+	// "url": "git@gitlab.aeon.world:services/meta_id.git",
+	Url string `json:"url"`
+	// "description": "",
+	Desc string `json:"description"`
+	// "homepage": "https://gitlab.aeon.world/services/meta_id",
+	Homepage string `json:"homepage"`
+	// "git_http_url": "https://gitlab.aeon.world/services/meta_id.git",
+	GitHTTPUrl string `json:"git_http_url"`
+	// "git_ssh_url": "git@gitlab.aeon.world:services/meta_id.git",
+	GitSSHUrl string `json:"git_ssh_url"`
+	// "visibility_level": 10
+}
+
 //-------------------------------
 // main driver
 //-------------------------------
@@ -319,7 +434,25 @@ func handle_gitlab_push_webhook(w http.ResponseWriter, r *http.Request) {
 	// get body
 	body, _ := ioutil.ReadAll(r.Body)
 	log.Println(string(body))
-	send_email(string(body))
+
+	var event GitLabWebhookEvent
+	// get event
+	err := json.Unmarshal([]byte(body), &event)
+	if err != nil {
+		panic(err)
+	}
+
+	email := event.EventName + "\r\n" +
+		event.Ref + "\r\n" +
+		event.Message + "\r\n" +
+		event.UserName + "\r\n" +
+		event.UserUsername + "\r\n" +
+		event.UserEmail + "\r\n" +
+		event.Project.Name + "\r\n" +
+		event.Project.Namespace + "\r\n" +
+		event.Project.Homepage
+
+	send_email(email)
 	fmt.Fprintf(w, "gitlab push webhook machined!")
 }
 
